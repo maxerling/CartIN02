@@ -17,8 +17,9 @@ public class Main {
 
         //System.out.println(repo.getAllInvoices());
         //System.out.println(repo.getAllShoes());
+        //logIn(sc,repo);
 
-        System.out.println();
+        System.out.println(repo.getAllInvoices());
     }
     public static void main(String[] args) {
         new Main();

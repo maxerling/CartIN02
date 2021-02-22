@@ -72,4 +72,16 @@ public class Invoice {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                 id +
+                "," + customer +
+                "," + shoes +
+                "," + toStreet + '\'' +
+                "," + toZip +
+                "," + toCity + '\'' +
+                '}';
+    }
 }

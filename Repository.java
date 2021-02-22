@@ -49,9 +49,9 @@ public class Repository {
         this.grades = getAllGrades();
         this.categories = getAllCategories();
         this.brands = getAllBrands();
+        this.shoes = getAllShoes();
+        this.invoices = getAllInvoices();
 
-        //this.invoices = getAllInvoices()
-        //this.shoes = getAllInvoices();
     }
 
     public boolean auth(String username, String password) {
@@ -151,7 +151,7 @@ public class Repository {
     }
 
     public List<Shoe> getAllShoes() {
-        String selectStm = "SELECT * FROM shoe LEFT JOIN feedback ON shoe.id = feedback.shoeid";
+        String selectStm = "SELECT * FROM shoe LEFT JOIN feedback ON shoe.id = feedback.shoeid JOIN shoecategory ON shoe.id = shoecategory.shoeid;";
 
         try (Connection con = getConnection()) {
             Statement stm = con.createStatement();
@@ -312,9 +312,9 @@ public class Repository {
             }
 
             for (Category c : categories) {
-                /*if (c.getId() == rs.getInt("shoecategory.shoeid")) {
+                if (c.getId() == rs.getInt("shoecategory.categoryid")) {
                     temp.getCategories().add(c);
-                }*/
+                }
             }
 
 
