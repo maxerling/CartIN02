@@ -48,10 +48,14 @@ public class Main {
     public void getMenu(Scanner sc) {
         System.out.println("Type the number based on the action you would like to do");
         System.out.println("1.Add product to cart");
-        // lista på prdoukter man kan välja mellan
-        //väljer en av dom, informationen skickas tillbaka
+        // lista på prdoukter man kan välja mellan (ej quantity 0) namn,storlek,färg,antal,kvantiet
+        //väljer en av dom, necarssy info AddToCart(?.?.?)
+        // läggga in det i en nuvarande beställning, skapa en ny beställning
+        // confirm or denied (SQLEXCPETION???)
         System.out.println("2.See cart");
-        //Tar fram alla ens beställningar baseat på användarnamn
+        //Tar fram alla ens beställningar baserat på användarnamn
+        //getAllInvoices based on username, loop thorugh
+        // after found correct match loop through getAllShoes
         System.out.println("3.Review product");
         //Tar fram alla skor och
         System.out.println("4.See average rating and comments of a product");
