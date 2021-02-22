@@ -1,4 +1,5 @@
 import Objects.Customer;
+import Objects.Invoice;
 import Objects.Shoe.Shoe;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class Main {
     public void addProductToCart(Repository repo, Scanner sc, String user) {
         int i = 0;
         List<Shoe> availableShoes = new ArrayList<>();
-        for (Shoe s : repo.getAllShoes()) {
+        for (Shoe s : repo.getShoes()) {
 
             if (!(s.getQuantity() == 0)) {
                 System.out.println(i+1 + " ----");
@@ -105,19 +106,24 @@ public class Main {
         }
 
         System.out.println("Pick a shoe");
-        System.out.println(availableShoes.size());
-        System.out.println(availableShoes);
+
         try {
             int options = sc.nextInt();
             options -= 1;
             if (options >= 0 && options < availableShoes.size()) {
                 Shoe selectedShoe = availableShoes.get(options);
-                System.out.println(selectedShoe);
+                int invoiceid = 0;
+                for (Invoice in : repo.getInvoices()) {
+                    if (in.getCustomer().getFirstName().equals(user)) {
+                        invoiceid = in.getId();
+                    }
+                }
 
-                for (Customer c : repo.getAllCustomers()) {
+                for (Customer c : repo.getCustomers()) {
                     if (c.getFirstName().equals(user)) {
-                        System.out.println(c);
-                        repo.addToCart(c.getId(),0,selectedShoe.getId());
+                        System.out.println(c.getId() + " " + invoiceid + " " + selectedShoe.getId());
+                        repo.addToCart(c.getId(),invoiceid,selectedShoe.getId());
+                        break;
                     }
                 }
 

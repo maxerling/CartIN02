@@ -57,7 +57,7 @@ public class Repository {
     public boolean auth(String username, String password) {
 
         for (Customer customer : customers) {
-            if (customer.getFirstName().equalsIgnoreCase(username) && customer.getPassword().equalsIgnoreCase(password)) {
+            if (customer.getFirstName().equals(username) && customer.getPassword().equals(password)) {
                 return true;
             }
         }
@@ -65,7 +65,19 @@ public class Repository {
     }
 
     public void addToCart(int customerid,int invoiceid,int productid) {
-         
+        try (Connection con = getConnection()) {
+            CallableStatement cs = con.prepareCall("CALL addToCart(?,?,?,?)");
+            cs.setInt(1,customerid);
+            cs.setInt(2,invoiceid);
+            cs.setInt(3,productid);
+            cs.registerOutParameter(4, Types.VARCHAR);
+
+            cs.executeQuery();
+            System.out.println(cs.getString((4)));
+
+        } catch (SQLException sql) {
+            System.out.println(sql.getMessage() + " " + sql.getErrorCode());
+        }
     }
 
 
@@ -412,5 +424,35 @@ public class Repository {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb?serverTimezone=UTC&useSSL=false", user, pass);
     }
 
+    public List<Customer> getCustomers() {
+        return customers;
+    }
 
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public List<Grade> getGrades() {
+        return grades;
+    }
+
+    public List<Shoe> getShoes() {
+        return shoes;
+    }
+
+    public List<Brand> getBrands() {
+        return brands;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public List<Integer> getDistinct() {
+        return distinct;
+    }
 }
