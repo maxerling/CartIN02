@@ -55,7 +55,6 @@ public class Repository {
     }
 
     public boolean auth(String username, String password) {
-        List<Customer> customers = getAllCustomers();
 
         for (Customer customer : customers) {
             if (customer.getFirstName().equalsIgnoreCase(username) && customer.getPassword().equalsIgnoreCase(password)) {
@@ -63,6 +62,10 @@ public class Repository {
             }
         }
         return false;
+    }
+
+    public void addToCart(int customerid,int invoiceid,int productid) {
+         
     }
 
 
@@ -169,23 +172,6 @@ public class Repository {
 
         return shoes;
 
-    }
-
-    public void getCategoriesForEachShoe() {
-        String selectStm = "SELECT * FROM shoe RIGHT JOIN shoecategory ON shoe.id = shoecategory.shoeid GROUP BY shoe.name";
-
-        try (Connection con = getConnection()) {
-            Statement stm = con.createStatement();
-
-            ResultSet rs = stm.executeQuery(selectStm);
-
-            while (rs.next()) {
-                shoes = getShoeModel(rs, shoes);
-            }
-
-        } catch (SQLException sql) {
-            System.out.println(sql.getMessage() + " " + sql.getErrorCode());
-        }
     }
 
     public List<Brand> getAllBrands() {

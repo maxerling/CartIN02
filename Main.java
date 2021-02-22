@@ -1,5 +1,7 @@
 import Objects.Customer;
+import Objects.Shoe.Shoe;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,7 +21,8 @@ public class Main {
         //System.out.println(repo.getAllShoes());
         //logIn(sc,repo);
 
-        System.out.println(repo.getAllInvoices());
+        //System.out.println(repo.getAllInvoices());
+        logIn(sc,repo);
     }
     public static void main(String[] args) {
         new Main();
@@ -37,7 +40,7 @@ public class Main {
 
         if (repo.auth(user,pass)) {
             System.out.println("Welcome " + user);
-            getMenu(sc);
+            getMenu(sc, repo,user);
 
         } else {
             System.out.println("Invalid credentials");
@@ -45,7 +48,7 @@ public class Main {
 
     }
 
-    public void getMenu(Scanner sc) {
+    public void getMenu(Scanner sc, Repository repo,String user) {
         System.out.println("Type the number based on the action you would like to do");
         System.out.println("1.Add product to cart");
         // lista på prdoukter man kan välja mellan (ej quantity 0) namn,storlek,färg,antal,kvantiet
@@ -61,7 +64,7 @@ public class Main {
         System.out.println("4.See average rating and comments of a product");
         String answer = sc.nextLine();
         if (answer.equals("1")) {
-
+            addProductToCart(repo,sc,user);
         } else if (answer.equals("2")) {
 
         } else if (answer.equals("3")) {
@@ -72,5 +75,57 @@ public class Main {
             System.out.println("Invalid input");
         }
 
+    }
+
+    public void addProductToCart(Repository repo, Scanner sc, String user) {
+        int i = 0;
+        List<Shoe> availableShoes = new ArrayList<>();
+        for (Shoe s : repo.getAllShoes()) {
+
+            if (!(s.getQuantity() == 0)) {
+                System.out.println(i+1 + " ----");
+                System.out.println("Name: " + s.getName() + '\n'
+                        + "Size: " + s.getSize() + '\n'
+                        + "Color: " + s.getColor() + '\n'
+                        + "Quantity: " + s.getQuantity() + '\n'
+                        + "Price: " + s.getPrice());
+                Shoe temp = new Shoe();
+                temp.setId(s.getId());
+                temp.setName(s.getName());
+                temp.setSize(s.getSize());
+                temp.setColor(s.getColor());
+                temp.setBrand(s.getBrand());
+                temp.setQuantity(s.getQuantity());
+                temp.setPrice(s.getPrice());
+                temp.setCategories(s.getCategories());
+                availableShoes.add(temp);
+                System.out.println("----");
+                i++;
+            }
+        }
+
+        System.out.println("Pick a shoe");
+        System.out.println(availableShoes.size());
+        System.out.println(availableShoes);
+        try {
+            int options = sc.nextInt();
+            options -= 1;
+            if (options >= 0 && options < availableShoes.size()) {
+                Shoe selectedShoe = availableShoes.get(options);
+                System.out.println(selectedShoe);
+
+                for (Customer c : repo.getAllCustomers()) {
+                    if (c.getFirstName().equals(user)) {
+                        System.out.println(c);
+                        repo.addToCart(c.getId(),0,selectedShoe.getId());
+                    }
+                }
+
+            } else {
+                System.out.println("Not valid input");
+            }
+        } catch (NumberFormatException n) {
+            System.out.println("Must be a number!");
+        }
     }
 }
