@@ -80,6 +80,26 @@ public class Repository {
         }
     }
 
+    public void rateProduct(int customerid,String productName,int size, String color, int grade, String comment) {
+        try (Connection con = getConnection()) {
+            CallableStatement cs = con.prepareCall("CALL  Rate(?,?,?,?,?,?,?)");
+            cs.setInt(1,customerid);
+            cs.setString(2,productName);
+            cs.setInt(3,size);
+            cs.setString(4,color);
+            cs.setInt(5,grade);
+            cs.setString(6,comment);
+            cs.registerOutParameter(7, Types.VARCHAR);
+
+
+            cs.executeQuery();
+            System.out.println(cs.getString((7)));
+
+        } catch (SQLException sql) {
+            System.out.println(sql.getMessage() + " " + sql.getErrorCode());
+        }
+    }
+
 
     public List<Customer> getAllCustomers() {
         String selectStm = "SELECT * FROM customer";

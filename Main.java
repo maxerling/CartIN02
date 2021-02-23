@@ -1,5 +1,6 @@
 import Objects.Customer;
 import Objects.Feedback.Feedback;
+import Objects.Feedback.Grade
 import Objects.Invoice;
 import Objects.Shoe.Shoe;
 
@@ -24,11 +25,11 @@ public class Main {
         //logIn(sc,repo);
 
         //System.out.println(repo.getAllInvoices());
-        logIn(sc,repo);
+        logIn(sc, repo);
     }
+
     public static void main(String[] args) {
         new Main();
-
 
 
     }
@@ -40,9 +41,9 @@ public class Main {
         System.out.println("Password");
         String pass = sc.nextLine();
 
-        if (repo.auth(user,pass)) {
+        if (repo.auth(user, pass)) {
             System.out.println("Welcome " + user);
-            getMenu(sc, repo,user);
+            getMenu(sc, repo, user);
 
         } else {
             System.out.println("Invalid credentials");
@@ -50,7 +51,7 @@ public class Main {
 
     }
 
-    public void getMenu(Scanner sc, Repository repo,String user) {
+    public void getMenu(Scanner sc, Repository repo, String user) {
         System.out.println("Type the number based on the action you would like to do");
         System.out.println("1.Add product to cart");
         // lista på prdoukter man kan välja mellan (ej quantity 0) namn,storlek,färg,antal,kvantiet
@@ -66,14 +67,14 @@ public class Main {
         System.out.println("4.See average rating and comments of a product");
         String answer = sc.nextLine();
         if (answer.equals("1")) {
-            addProductToCart(repo,sc,user);
+            addProductToCart(repo, sc, user);
         } else if (answer.equals("2")) {
-            printCart(repo,user);
+            printCart(repo, user);
 
         } else if (answer.equals("3")) {
-            reviewProduct(repo,sc,user);
+            reviewProduct(repo, sc, user);
         } else if (answer.equals("4")) {
-            getProductAverageRating(repo,sc);
+            getProductAverageRating(repo, sc);
         } else {
             System.out.println("Invalid input");
         }
@@ -86,10 +87,11 @@ public class Main {
         for (Shoe s : repo.getShoes()) {
 
             if (!(s.getQuantity() == 0)) {
-                System.out.println(i+1 + " ----");
+                System.out.println(i + 1 + " ----");
                 System.out.println("Name: " + s.getName() + '\n'
                         + "Size: " + s.getSize() + '\n'
                         + "Color: " + s.getColor() + '\n'
+                        + "Brand: " + s.getBrand() + '\n'
                         + "Quantity: " + s.getQuantity() + '\n'
                         + "Price: " + s.getPrice());
                 Shoe temp = new Shoe();
@@ -124,7 +126,7 @@ public class Main {
                 for (Customer c : repo.getCustomers()) {
                     if (c.getFirstName().equals(user)) {
                         System.out.println(c.getId() + " " + invoiceid + " " + selectedShoe.getId());
-                        repo.addToCart(c.getId(),invoiceid,selectedShoe.getId());
+                        repo.addToCart(c.getId(), invoiceid, selectedShoe.getId());
                         break;
                     }
                 }
@@ -141,19 +143,54 @@ public class Main {
         int sum = 0;
         System.out.println("***CART***");
         for (Invoice i : repo.getInvoices()) {
-           if  (i.getCustomer().getFirstName().equals(user)) {
-               for (Shoe s : i.getShoes()) {
-                   System.out.println("Name: " +s.getName() + " Size: " + s.getSize() + " Color: " + s.getColor() + " Brand: " + s.getBrand() + " Quantity: " + s.getQuantity() + " Price: " + (s.getQuantity() * s.getPrice()));
-                   sum += s.getQuantity() * s.getPrice();
-               }
-           }
+            if (i.getCustomer().getFirstName().equals(user)) {
+                for (Shoe s : i.getShoes()) {
+                    System.out.println("Name: " + s.getName() + " Size: " + s.getSize() + " Color: " + s.getColor() + " Brand: " + s.getBrand() + " Quantity: " + s.getQuantity() + " Price: " + (s.getQuantity() * s.getPrice()));
+                    sum += s.getQuantity() * s.getPrice();
+                }
+            }
         }
         System.out.print("Total price: ");
         System.out.print(sum);
     }
 
     public void reviewProduct(Repository repo, Scanner sc, String user) {
+        int i = 0;
+        List<Shoe> availableShoes = new ArrayList<>();
+        for (Shoe s : repo.getShoes()) {
+            System.out.println((i + 1) + ". Name: " + s.getName() + " Size: " + s.getSize() + " Color: " + s.getColor() + " Brand: " + s.getBrand() + " Quantity: " + s.getQuantity());
+            Shoe temp = new Shoe();
+            temp.setId(s.getId());
+            temp.setName(s.getName());
+            temp.setSize(s.getSize());
+            temp.setColor(s.getColor());
+            temp.setBrand(s.getBrand());
+            temp.setQuantity(s.getQuantity());
+            temp.setPrice(s.getPrice());
+            temp.setCategories(s.getCategories());
+            availableShoes.add(temp);
+            i++;
 
+        }
+
+        System.out.println("Pick a shoe");
+
+        try {
+            int options = sc.nextInt();
+            options -= 1;
+            if (options >= 0 && options < availableShoes.size()) {
+                Shoe selectedShoe = availableShoes.get(options);
+
+                System.out.println(selectedShoe.getName());
+                setRatingForProduct(repo, sc, user,selectedShoe);
+
+
+            } else {
+                System.out.println("Not valid input");
+            }
+        } catch (NumberFormatException n) {
+            System.out.println("Must be a number!");
+        }
     }
 
     public void getProductAverageRating(Repository repo, Scanner sc) {
@@ -182,5 +219,33 @@ public class Main {
 
 
 
+    }
+
+    public int getCustomerId(Repository repo, String user) {
+        for (Customer c : repo.getCustomers()) {
+            if (c.getFirstName().equals(user)) {
+                return c.getId();
+            }
+        }
+        return 0;
+    }
+
+    public void setRatingForProduct(Repository repo, Scanner sc, String user,Shoe selectedShoe) {
+        System.out.println("Rating?");
+        for (Grade g : repo.getGrades()) {
+            System.out.println(g.getRating() + ". " + g.getRatingText());
+        }
+        int options = sc.nextInt();
+
+        System.out.println("Comment?");
+        sc.nextLine();
+        String comment = sc.nextLine();
+
+
+        if (options > 0 && options <= 5) {
+            repo.rateProduct(getCustomerId(repo, user),selectedShoe.getName(),selectedShoe.getSize(),selectedShoe.getColor(),options,comment);
+        } else {
+            System.out.println("Invalid input");
+        }
     }
 }
