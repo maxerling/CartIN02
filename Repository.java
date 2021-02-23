@@ -166,7 +166,7 @@ public class Repository {
     }
 
     public List<Shoe> getAllShoes() {
-        String selectStm = "SELECT * FROM shoe LEFT JOIN feedback ON shoe.id = feedback.shoeid JOIN shoecategory ON shoe.id = shoecategory.shoeid;";
+        String selectStm = "SELECT * FROM shoe LEFT JOIN feedback ON shoe.id = feedback.shoeid JOIN shoecategory ON shoe.id = shoecategory.shoeid ORDER BY shoe.name";
 
         try (Connection con = getConnection()) {
             Statement stm = con.createStatement();

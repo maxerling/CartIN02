@@ -67,6 +67,7 @@ public class Main {
         if (answer.equals("1")) {
             addProductToCart(repo,sc,user);
         } else if (answer.equals("2")) {
+            printCart(repo,user);
 
         } else if (answer.equals("3")) {
 
@@ -132,6 +133,17 @@ public class Main {
             }
         } catch (NumberFormatException n) {
             System.out.println("Must be a number!");
+        }
+    }
+
+    public void printCart(Repository repo, String user) {
+        System.out.println("***CART***");
+        for (Invoice i : repo.getInvoices()) {
+           if  (i.getCustomer().getFirstName().equals(user)) {
+               for (Shoe s : i.getShoes()) {
+                   System.out.println("Name: " +s.getName() + " Size: " + s.getSize() + " Color: " + s.getColor() + " Brand: " + s.getBrand() + " Quantity: " + s.getQuantity() + " Price: " + (s.getQuantity() * s.getPrice()));
+               }
+           }
         }
     }
 }

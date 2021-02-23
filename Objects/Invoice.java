@@ -1,5 +1,6 @@
 package Objects;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import Objects.Shoe.Shoe;
 
@@ -16,6 +17,7 @@ public class Invoice {
     private String toStreet;
     private int toZip;
     private String toCity;
+    private Date date;
 
     public Invoice() {
         this.shoes = new ArrayList<>();
