@@ -202,6 +202,7 @@ public class Main {
                 return c.getId();
             }
         }
+        return 0;
     }
 
     public void setRatingForProduct(Repository repo, Scanner sc, String user,Shoe selectedShoe) {
