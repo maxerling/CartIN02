@@ -70,9 +70,9 @@ public class Main {
             printCart(repo,user);
 
         } else if (answer.equals("3")) {
-
+            reviewProduct(repo,sc,user);
         } else if (answer.equals("4")) {
-
+            getProductAverageRating(repo,sc);
         } else {
             System.out.println("Invalid input");
         }
@@ -149,5 +149,13 @@ public class Main {
         }
         System.out.print("Total price: ");
         System.out.print(sum);
+    }
+
+    public void reviewProduct(Repository repo, Scanner sc, String user) {
+
+    }
+
+    public void getProductAverageRating(Repository repo, Scanner sc) {
+
     }
 }
