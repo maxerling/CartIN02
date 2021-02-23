@@ -137,13 +137,17 @@ public class Main {
     }
 
     public void printCart(Repository repo, String user) {
+        int sum = 0;
         System.out.println("***CART***");
         for (Invoice i : repo.getInvoices()) {
            if  (i.getCustomer().getFirstName().equals(user)) {
                for (Shoe s : i.getShoes()) {
                    System.out.println("Name: " +s.getName() + " Size: " + s.getSize() + " Color: " + s.getColor() + " Brand: " + s.getBrand() + " Quantity: " + s.getQuantity() + " Price: " + (s.getQuantity() * s.getPrice()));
+                   sum += s.getQuantity() * s.getPrice();
                }
            }
         }
+        System.out.print("Total price: ");
+        System.out.print(sum);
     }
 }
