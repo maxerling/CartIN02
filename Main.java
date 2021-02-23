@@ -1,4 +1,5 @@
 import Objects.Customer;
+import Objects.Feedback.Feedback;
 import Objects.Invoice;
 import Objects.Shoe.Shoe;
 
@@ -156,6 +157,30 @@ public class Main {
     }
 
     public void getProductAverageRating(Repository repo, Scanner sc) {
+
+        List<Feedback> feedbacList = new ArrayList<>();
+
+        int i = 0;
+        List<Shoe> availableShoes = new ArrayList<>();
+        for (Shoe s : repo.getShoes()) {
+
+            System.out.println(i+1 + " ----");
+            System.out.println("Name: " + s.getName());
+            System.out.println("----");
+            i++;
+        }
+
+        System.out.println("Vilken produkt vill du se recensioner för?");
+
+        try {
+            int input = sc.nextInt();
+            input -= 1;
+            System.out.println("Not valid input");
+        } catch (NumberFormatException n) {
+            System.out.println("Must be a number!");
+        }
+
+
 
     }
 }
