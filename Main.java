@@ -1,6 +1,6 @@
 import Objects.Customer;
 import Objects.Feedback.Feedback;
-import Objects.Feedback.Grade
+import Objects.Feedback.Grade;
 import Objects.Invoice;
 import Objects.Shoe.Shoe;
 
