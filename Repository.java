@@ -80,6 +80,10 @@ public class Repository {
         }
     }
 
+    public void rateProduct(int customerid,String productName,int size, String color, int grade, String comment) {
+        
+    }
+
 
     public List<Customer> getAllCustomers() {
         String selectStm = "SELECT * FROM customer";
