@@ -213,6 +213,7 @@ public class Main {
         int options = sc.nextInt();
 
         System.out.println("Comment?");
+        sc.nextLine();
         String comment = sc.nextLine();
 
 
