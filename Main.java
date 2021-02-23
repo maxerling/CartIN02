@@ -1,4 +1,5 @@
 import Objects.Customer;
+import Objects.Feedback.Grade;
 import Objects.Invoice;
 import Objects.Shoe.Shoe;
 
@@ -89,6 +90,7 @@ public class Main {
                 System.out.println("Name: " + s.getName() + '\n'
                         + "Size: " + s.getSize() + '\n'
                         + "Color: " + s.getColor() + '\n'
+                        + "Brand: " + s.getBrand() + '\n'
                         + "Quantity: " + s.getQuantity() + '\n'
                         + "Price: " + s.getPrice());
                 Shoe temp = new Shoe();
@@ -152,10 +154,63 @@ public class Main {
     }
 
     public void reviewProduct(Repository repo, Scanner sc, String user) {
+        int i = 0;
+        List<Shoe> availableShoes = new ArrayList<>();
+        for (Shoe s : repo.getShoes()) {
+                System.out.println((i+1) +". Name: " +s.getName() + " Size: " + s.getSize() + " Color: " + s.getColor() + " Brand: " + s.getBrand() + " Quantity: " + s.getQuantity());
+                Shoe temp = new Shoe();
+                temp.setId(s.getId());
+                temp.setName(s.getName());
+                temp.setSize(s.getSize());
+                temp.setColor(s.getColor());
+                temp.setBrand(s.getBrand());
+                temp.setQuantity(s.getQuantity());
+                temp.setPrice(s.getPrice());
+                temp.setCategories(s.getCategories());
+                availableShoes.add(temp);
+                i++;
 
+        }
+
+        System.out.println("Pick a shoe");
+
+        try {
+            int options = sc.nextInt();
+            options -= 1;
+            if (options >= 0 && options < availableShoes.size()) {
+                Shoe selectedShoe = availableShoes.get(options);
+
+                System.out.println(selectedShoe.getName());
+                setRatingForProduct(repo, sc, user);
+
+
+
+            } else {
+                System.out.println("Not valid input");
+            }
+        } catch (NumberFormatException n) {
+            System.out.println("Must be a number!");
+        }
     }
 
     public void getProductAverageRating(Repository repo, Scanner sc) {
 
+    }
+
+    public void setRatingForProduct(Repository repo, Scanner sc, String user) {
+        System.out.println("Rating?");
+        for (Grade g : repo.getGrades()) {
+            System.out.println(g.getRating() + ". " + g.getRatingText());
+        }
+        int options = sc.nextInt();
+
+        System.out.println("Comment?");
+        String comment = sc.nextLine();
+
+        if (options > 0 && options <= 5) {
+            repo.
+        } else {
+            System.out.println("Invalid input");
+        }
     }
 }
