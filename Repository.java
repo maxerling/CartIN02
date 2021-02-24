@@ -100,6 +100,24 @@ public class Repository {
         }
     }
 
+    public void rateProductV2(int customerid, int gradeid, int shoeID, String comment) {
+        try (Connection con = getConnection()) {
+            CallableStatement cs = con.prepareCall("CALL RateTEST(?,?,?,?,?)");
+            cs.setInt(1,customerid);
+            cs.setInt(2,gradeid);
+            cs.setInt(3,shoeID);
+            cs.setString(4,comment);
+            cs.registerOutParameter(5, Types.VARCHAR);
+
+
+            cs.executeQuery();
+            System.out.println(cs.getString((5)));
+
+        } catch (SQLException sql) {
+            System.out.println(sql.getMessage() + " " + sql.getErrorCode());
+        }
+    }
+
 
     public List<Customer> getAllCustomers() {
         String selectStm = "SELECT * FROM customer";
@@ -405,7 +423,6 @@ public class Repository {
         list.add(temp);
 
         return list;
-
     }
 
     public List<Grade> getGradeModel(ResultSet rs, List<Grade> list) {
@@ -426,14 +443,16 @@ public class Repository {
     public Connection getConnection() throws SQLException {
         String user = "";
         String pass = "";
+        String connection = "";
         Properties p = new Properties();
         try {
-            FileInputStream in = new FileInputStream("C:\\Users\\m\\Desktop\\Java20\\Databasteknik och Java\\Cart\\recourses\\db.properties");
+            FileInputStream in = new FileInputStream("/Users/donatas/Desktop/Nackademin/DBTEK/DBTEK_Uppgift_2/config.properties");
             p.load(in);
             in.close();
 
             user = p.getProperty("user");
             pass = p.getProperty("pass");
+            connection = p.getProperty("connection");
 
         } catch (FileNotFoundException file) {
             file.printStackTrace();
@@ -441,7 +460,7 @@ public class Repository {
             io.printStackTrace();
         }
 
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb?serverTimezone=UTC&useSSL=false", user, pass);
+        return DriverManager.getConnection(connection, user, pass);
     }
 
     public List<Customer> getCustomers() {
