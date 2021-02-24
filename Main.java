@@ -57,7 +57,7 @@ public class Main {
             System.out.println("2.See cart");
             System.out.println("3.Review product");
             System.out.println("4.See average rating and comments of a product");
-            System.out.println("5. Quit");
+            System.out.println("5.Quit");
             String answer = sc.nextLine();
             if (answer.equals("1")) {
                 addProductToCart(repo, sc, user);
