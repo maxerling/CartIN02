@@ -17,6 +17,7 @@ public class Invoice {
     private String toStreet;
     private int toZip;
     private String toCity;
+    private int quantity;
     private Date date;
 
     public Invoice() {
@@ -73,6 +74,14 @@ public class Invoice {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     @Override

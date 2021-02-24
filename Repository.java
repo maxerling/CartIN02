@@ -34,23 +34,27 @@ public class Repository {
     private List<Category> categories;
     private List<Integer> distinct;
 
+
+    private List<Customer> customersList;
+    private List<Invoice> invoicesList;
+    private List<Feedback> feedbacksList;
+    private List<Grade> gradesList;
+    private List<Shoe> shoesList;
+    private List<Brand> brandsList;
+    private List<Category> categoriesList;
+    private List<Integer> distinctList;
+
     Repository() {
-        this.customers = new ArrayList<>();
-        this.invoices = new ArrayList<>();
-        this.feedbacks = new ArrayList<>();
         this.grades = new ArrayList<>();
-        this.shoes = new ArrayList<>();
+        this.customers = new ArrayList<>();
         this.brands = new ArrayList<>();
         this.categories = new ArrayList<>();
+        this.feedbacks = new ArrayList<>();
+        this.shoes = new ArrayList<>();
+        this.invoices = new ArrayList<>();
         this.distinct = new ArrayList<>();
 
-        this.grades = getAllGrades();
         this.customers = getAllCustomers();
-        this.feedbacks = getAllFeedbacks();
-        this.categories = getAllCategories();
-        this.brands = getAllBrands();
-        this.shoes = getAllShoes();
-        this.invoices = getAllInvoices();
 
     }
 
@@ -82,7 +86,7 @@ public class Repository {
 
     public void rateProduct(int customerid,String productName,int size, String color, int grade, String comment) {
         try (Connection con = getConnection()) {
-            CallableStatement cs = con.prepareCall("CALL  Rate(?,?,?,?,?,?,?)");
+            CallableStatement cs = con.prepareCall("CALL  Rate(?,?,?,?,?)");
             cs.setInt(1,customerid);
             cs.setString(2,productName);
             cs.setInt(3,size);
@@ -100,18 +104,16 @@ public class Repository {
         }
     }
 
-    public void rateProductV2(int customerid, int gradeid, int shoeID, String comment) {
+    public void rateProductV2(int customerid,int shoeID, int gradeid, String comment) {
         try (Connection con = getConnection()) {
-            CallableStatement cs = con.prepareCall("CALL RateTEST(?,?,?,?,?)");
+            CallableStatement cs = con.prepareCall("CALL Rate(?,?,?,?)");
             cs.setInt(1,customerid);
-            cs.setInt(2,gradeid);
-            cs.setInt(3,shoeID);
+            cs.setInt(2,shoeID);
+            cs.setInt(3,gradeid);
             cs.setString(4,comment);
-            cs.registerOutParameter(5, Types.VARCHAR);
 
-
+            System.out.println(customerid + " " + gradeid + " " + shoeID + " " + comment);
             cs.executeQuery();
-            System.out.println(cs.getString((5)));
 
         } catch (SQLException sql) {
             System.out.println(sql.getMessage() + " " + sql.getErrorCode());
@@ -205,7 +207,6 @@ public class Repository {
 
         try (Connection con = getConnection()) {
             Statement stm = con.createStatement();
-
             ResultSet rs = stm.executeQuery(selectStm);
 
             while (rs.next()) {
@@ -228,8 +229,8 @@ public class Repository {
             Statement stm = con.createStatement();
 
             ResultSet rs = stm.executeQuery(selectStm);
-
             while (rs.next()) {
+
                 shoes = getShoeModel(rs, shoes);
             }
 
@@ -319,6 +320,7 @@ public class Repository {
             temp.setToStreet(rs.getString("to_street"));
             temp.setToZip(rs.getInt("to_zip"));
             temp.setToCity(rs.getString("to_city"));
+            temp.setQuantity(rs.getInt("shoeinvoice.quantity"));
 
             for (Shoe s : shoes) {
                 if (s.getId() == rs.getInt("shoeid")) {
@@ -504,5 +506,37 @@ public class Repository {
 
     public List<Integer> getDistinct() {
         return distinct;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
+    }
+
+    public void setFeedbacks(List<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    public void setGrades(List<Grade> grades) {
+        this.grades = grades;
+    }
+
+    public void setShoes(List<Shoe> shoes) {
+        this.shoes = shoes;
+    }
+
+    public void setBrands(List<Brand> brands) {
+        this.brands = brands;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void setDistinct(List<Integer> distinct) {
+        this.distinct = distinct;
     }
 }

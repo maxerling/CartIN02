@@ -50,18 +50,12 @@ public class Main {
 
     public void getMenu(Scanner sc, Repository repo, String user) {
         while (true) {
+            refresh(repo);
             System.out.println("Type the number based on the action you would like to do");
             System.out.println("1.Add product to cart");
-            // lista på prdoukter man kan välja mellan (ej quantity 0) namn,storlek,färg,antal,kvantiet
-            //väljer en av dom, necarssy info AddToCart(?.?.?)
-            // läggga in det i en nuvarande beställning, skapa en ny beställning
-            // confirm or denied (SQLEXCPETION???)
+
             System.out.println("2.See cart");
-            //Tar fram alla ens beställningar baserat på användarnamn
-            //getAllInvoices based on username, loop thorugh
-            // after found correct match loop through getAllShoes
             System.out.println("3.Review product");
-            //Tar fram alla skor och
             System.out.println("4.See average rating and comments of a product");
             String answer = sc.nextLine();
             if (answer.equals("1")) {
@@ -76,7 +70,10 @@ public class Main {
             } else {
                 System.out.println("Invalid input");
             }
+
+            System.out.println();
         }
+
 
     }
 
@@ -124,7 +121,6 @@ public class Main {
 
                 for (Customer c : repo.getCustomers()) {
                     if (c.getFirstName().equals(user)) {
-                        System.out.println(c.getId() + " " + invoiceid + " " + selectedShoe.getId());
                         repo.addToCart(c.getId(), invoiceid, selectedShoe.getId());
                         break;
                     }
@@ -136,6 +132,8 @@ public class Main {
         } catch (NumberFormatException n) {
             System.out.println("Must be a number!");
         }
+        sc.nextLine();
+        System.out.println();
     }
 
     public void printCart(Repository repo, String user) {
@@ -144,19 +142,20 @@ public class Main {
         for (Invoice i : repo.getInvoices()) {
             if (i.getCustomer().getFirstName().equals(user)) {
                 for (Shoe s : i.getShoes()) {
-                    System.out.println("Name: " + s.getName() + " Size: " + s.getSize() + " Color: " + s.getColor() + " Brand: " + s.getBrand() + " Quantity: " + s.getQuantity() + " Price: " + (s.getQuantity() * s.getPrice()));
-                    sum += s.getQuantity() * s.getPrice();
+                    System.out.println("Name: " + s.getName() + " Size: " + s.getSize() + " Color: " + s.getColor() + " Brand: " + s.getBrand() + " Quantity: " + i.getQuantity() + " Price: " + (i.getQuantity() * s.getPrice()));
+                    sum += i.getQuantity() * s.getPrice();
                 }
             }
         }
         System.out.println("Total price: " + sum);
+        System.out.println();
     }
 
     public void reviewProduct(Repository repo, Scanner sc, String user) {
         int i = 0;
         List<Shoe> availableShoes = new ArrayList<>();
         for (Shoe s : repo.getShoes()) {
-            System.out.println((i + 1) + ". Name: " + s.getName() + " Size: " + s.getSize() + " Color: " + s.getColor() + " Brand: " + s.getBrand() + " Quantity: " + s.getQuantity());
+            System.out.println((i + 1) + ". Name: " + s.getName() + " Size: " + s.getSize() + " Color: " + s.getColor() + "\nBrand: " + s.getBrand());
             Shoe temp = new Shoe();
             temp.setId(s.getId());
             temp.setName(s.getName());
@@ -227,7 +226,7 @@ public class Main {
         int i = 0;
         List<Shoe> availableShoes = new ArrayList<>();
         for (Shoe s : repo.getShoes()) {
-            System.out.println((i+1) + ". Name: " + s.getName());
+            System.out.println((i+1) + ". Name: " + s.getName() + " Color: " + s.getColor());
             Shoe temp = new Shoe();
             temp.setId(s.getId());
             temp.setName(s.getName());
@@ -243,7 +242,7 @@ public class Main {
 
 
 
-        System.out.println("Vilken produkt vill du se recensioner för?");
+        System.out.println("Vilken sko?");
 
         try {
             int input = sc.nextInt();
@@ -261,12 +260,6 @@ public class Main {
                         } else {
                             System.out.println("Comment: ");
                         }
-
-                        /*if (f.getGrade() != null ) {
-                            System.out.println("Grade: " + f.getGrade().getRatingText());
-                        } else {
-                            System.out.println("Grade: ");
-                        }*/
 
                     }
 
@@ -287,5 +280,32 @@ public class Main {
         } catch (NumberFormatException n) {
             System.out.println("Must be a number!");
         }
+    }
+
+    public void refresh(Repository repo) {
+        clearLists(repo);
+
+        repo.setGrades(repo.getAllGrades());
+        repo.setCustomers(repo.getAllCustomers());
+        repo.setBrands(repo.getAllBrands());
+        repo.setCategories(repo.getAllCategories());
+        repo.setFeedbacks(repo.getAllFeedbacks());
+        repo.setShoes(repo.getAllShoes());
+        repo.setInvoices(repo.getAllInvoices());
+
+    }
+
+    public void clearLists(Repository repo) {
+        repo.getDistinct().clear();
+        repo.getShoes().clear();
+        repo.getInvoices().clear();
+        repo.getFeedbacks().clear();
+        repo.getCustomers().clear();
+        repo.getGrades().clear();
+        repo.getBrands().clear();
+        repo.getCategories().clear();
+
+
+
     }
 }
