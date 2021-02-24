@@ -19,13 +19,10 @@ public class Main {
 
         Repository repo = new Repository();
         Scanner sc = new Scanner(System.in);
+        while (true) {
+            logIn(sc, repo);
+        }
 
-        //System.out.println(repo.getAllInvoices());
-        //System.out.println(repo.getAllShoes());
-        //logIn(sc,repo);
-
-        //System.out.println(repo.getAllInvoices());
-        logIn(sc, repo);
     }
 
     public static void main(String[] args) {
@@ -74,7 +71,7 @@ public class Main {
         } else if (answer.equals("3")) {
             reviewProduct(repo, sc, user);
         } else if (answer.equals("4")) {
-            //getProductAverageRating(repo, sc);
+            getProductAverageRating(repo, sc);
         } else {
             System.out.println("Invalid input");
         }
@@ -150,8 +147,7 @@ public class Main {
                 }
             }
         }
-        System.out.print("Total price: ");
-        System.out.print(sum);
+        System.out.println("Total price: " + sum);
     }
 
     public void reviewProduct(Repository repo, Scanner sc, String user) {
@@ -221,6 +217,66 @@ public class Main {
             //repo.rateProduct(getCustomerId(repo, user),selectedShoe.getName(),selectedShoe.getSize(),selectedShoe.getColor(),options,comment);
         } else {
             System.out.println("Invalid input");
+        }
+    }
+
+
+    public void getProductAverageRating(Repository repo, Scanner sc) {
+        int i = 0;
+        List<Shoe> availableShoes = new ArrayList<>();
+        for (Shoe s : repo.getShoes()) {
+            System.out.println((i+1) + ". Name: " + s.getName());
+            Shoe temp = new Shoe();
+            temp.setId(s.getId());
+            temp.setName(s.getName());
+            temp.setSize(s.getSize());
+            temp.setColor(s.getColor());
+            temp.setBrand(s.getBrand());
+            temp.setQuantity(s.getQuantity());
+            temp.setPrice(s.getPrice());
+            temp.setCategories(s.getCategories());
+            availableShoes.add(temp);
+            i++;
+        }
+
+
+
+        System.out.println("Vilken produkt vill du se recensioner för?");
+
+        try {
+            int input = sc.nextInt();
+            input -= 1;
+            if (input >= 0 && input < availableShoes.size()) {
+                Shoe selectedShoe = availableShoes.get(input);
+
+                System.out.println("Reviews:");
+                for (Feedback f : repo.getFeedbacks()) {
+                    if (selectedShoe.getId() == f.getShoeid()) {
+
+                        if (f.getComment() != null) {
+                            System.out.println("Comment: " + f.getComment());
+                        } else {
+                            System.out.println("Comment: ");
+                        }
+
+                        if (f.getGrade() != null ) {
+                            System.out.println("Grade: " + f.getGrade().getRatingText());
+                        } else {
+                            System.out.println("Grade: ");
+                        }
+
+                    }
+
+                }
+            } else {
+                System.out.println("Not valid input");
+            }
+
+
+
+
+        } catch (NumberFormatException n) {
+            System.out.println("Must be a number!");
         }
     }
 }

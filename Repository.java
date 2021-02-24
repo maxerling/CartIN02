@@ -44,9 +44,9 @@ public class Repository {
         this.categories = new ArrayList<>();
         this.distinct = new ArrayList<>();
 
+        this.grades = getAllGrades();
         this.customers = getAllCustomers();
         this.feedbacks = getAllFeedbacks();
-        this.grades = getAllGrades();
         this.categories = getAllCategories();
         this.brands = getAllBrands();
         this.shoes = getAllShoes();
@@ -397,9 +397,6 @@ public class Repository {
             temp.setComment(rs.getString("comment"));
             temp.setShoeid(rs.getInt("shoeid"));
 
-            if (temp.getComment() == null) {
-                temp.setComment("");
-            }
 
             for (Customer c : customers) {
                 if (c.getId() == rs.getInt("customerid")) {
@@ -407,12 +404,8 @@ public class Repository {
                 }
             }
 
-
             for (Grade g : grades) {
                 if (g.getId() == rs.getInt("gradeid")) {
-                    if (g.getRatingText() == null) {
-                        g.setRatingText("");
-                    }
                     temp.setGrade(g);
                 }
             }
