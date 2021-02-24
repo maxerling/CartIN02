@@ -266,6 +266,7 @@ public class Main {
                         } else {
                             System.out.println("Grade: ");
                         }
+                        System.out.println();
 
                     }
 
