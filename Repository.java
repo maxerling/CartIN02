@@ -118,6 +118,24 @@ public class Repository {
         }
     }
 
+    public double getAvgGrade(int shoeid) {
+        String selectStm = "SELECT avgScore(?)";
+        try (Connection con = getConnection()) {
+            CallableStatement cs = con.prepareCall("{? = CALL avgScore(?)}");
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setInt(2,shoeid);
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                return rs.getDouble("avgScore(" + shoeid +")");
+            }
+
+        } catch (SQLException sql) {
+            System.out.println(sql.getMessage() + " " + sql.getErrorCode());
+        }
+
+        return 0;
+    }
+
 
     public List<Customer> getAllCustomers() {
         String selectStm = "SELECT * FROM customer";

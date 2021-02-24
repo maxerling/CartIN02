@@ -250,7 +250,8 @@ public class Main {
             input -= 1;
             if (input >= 0 && input < availableShoes.size()) {
                 Shoe selectedShoe = availableShoes.get(input);
-
+                System.out.println(selectedShoe.getName());
+                System.out.println("Average Grade: " + repo.getAvgGrade(selectedShoe.getId()));
                 System.out.println("Reviews:");
                 for (Feedback f : repo.getFeedbacks()) {
                     if (selectedShoe.getId() == f.getShoeid()) {
@@ -261,19 +262,22 @@ public class Main {
                             System.out.println("Comment: ");
                         }
 
-                        if (f.getGrade() != null ) {
+                        /*if (f.getGrade() != null ) {
                             System.out.println("Grade: " + f.getGrade().getRatingText());
                         } else {
                             System.out.println("Grade: ");
-                        }
-                        System.out.println();
+                        }*/
 
                     }
 
                 }
+
+
             } else {
                 System.out.println("Not valid input");
             }
+
+
 
             sc.nextLine();
             System.out.println();
