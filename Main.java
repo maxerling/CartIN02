@@ -49,31 +49,33 @@ public class Main {
     }
 
     public void getMenu(Scanner sc, Repository repo, String user) {
-        System.out.println("Type the number based on the action you would like to do");
-        System.out.println("1.Add product to cart");
-        // lista på prdoukter man kan välja mellan (ej quantity 0) namn,storlek,färg,antal,kvantiet
-        //väljer en av dom, necarssy info AddToCart(?.?.?)
-        // läggga in det i en nuvarande beställning, skapa en ny beställning
-        // confirm or denied (SQLEXCPETION???)
-        System.out.println("2.See cart");
-        //Tar fram alla ens beställningar baserat på användarnamn
-        //getAllInvoices based on username, loop thorugh
-        // after found correct match loop through getAllShoes
-        System.out.println("3.Review product");
-        //Tar fram alla skor och
-        System.out.println("4.See average rating and comments of a product");
-        String answer = sc.nextLine();
-        if (answer.equals("1")) {
-            addProductToCart(repo, sc, user);
-        } else if (answer.equals("2")) {
-            printCart(repo, user);
+        while (true) {
+            System.out.println("Type the number based on the action you would like to do");
+            System.out.println("1.Add product to cart");
+            // lista på prdoukter man kan välja mellan (ej quantity 0) namn,storlek,färg,antal,kvantiet
+            //väljer en av dom, necarssy info AddToCart(?.?.?)
+            // läggga in det i en nuvarande beställning, skapa en ny beställning
+            // confirm or denied (SQLEXCPETION???)
+            System.out.println("2.See cart");
+            //Tar fram alla ens beställningar baserat på användarnamn
+            //getAllInvoices based on username, loop thorugh
+            // after found correct match loop through getAllShoes
+            System.out.println("3.Review product");
+            //Tar fram alla skor och
+            System.out.println("4.See average rating and comments of a product");
+            String answer = sc.nextLine();
+            if (answer.equals("1")) {
+                addProductToCart(repo, sc, user);
+            } else if (answer.equals("2")) {
+                printCart(repo, user);
 
-        } else if (answer.equals("3")) {
-            reviewProduct(repo, sc, user);
-        } else if (answer.equals("4")) {
-            getProductAverageRating(repo, sc);
-        } else {
-            System.out.println("Invalid input");
+            } else if (answer.equals("3")) {
+                reviewProduct(repo, sc, user);
+            } else if (answer.equals("4")) {
+                getProductAverageRating(repo, sc);
+            } else {
+                System.out.println("Invalid input");
+            }
         }
 
     }
@@ -272,6 +274,8 @@ public class Main {
                 System.out.println("Not valid input");
             }
 
+            sc.nextLine();
+            System.out.println();
 
 
 

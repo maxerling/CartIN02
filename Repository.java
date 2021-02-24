@@ -439,7 +439,7 @@ public class Repository {
         String connection = "";
         Properties p = new Properties();
         try {
-            FileInputStream in = new FileInputStream("/Users/donatas/Desktop/Nackademin/DBTEK/DBTEK_Uppgift_2/config.properties");
+            FileInputStream in = new FileInputStream("C:\\Users\\m\\Desktop\\Java20\\Databasteknik och Java\\Cart\\recourses\\db.properties");
             p.load(in);
             in.close();
 
