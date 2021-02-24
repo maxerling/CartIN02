@@ -34,16 +34,6 @@ public class Repository {
     private List<Category> categories;
     private List<Integer> distinct;
 
-
-    private List<Customer> customersList;
-    private List<Invoice> invoicesList;
-    private List<Feedback> feedbacksList;
-    private List<Grade> gradesList;
-    private List<Shoe> shoesList;
-    private List<Brand> brandsList;
-    private List<Category> categoriesList;
-    private List<Integer> distinctList;
-
     Repository() {
         this.grades = new ArrayList<>();
         this.customers = new ArrayList<>();
@@ -53,7 +43,6 @@ public class Repository {
         this.shoes = new ArrayList<>();
         this.invoices = new ArrayList<>();
         this.distinct = new ArrayList<>();
-
         this.customers = getAllCustomers();
 
     }
@@ -84,27 +73,8 @@ public class Repository {
         }
     }
 
-    public void rateProduct(int customerid,String productName,int size, String color, int grade, String comment) {
-        try (Connection con = getConnection()) {
-            CallableStatement cs = con.prepareCall("CALL  Rate(?,?,?,?,?)");
-            cs.setInt(1,customerid);
-            cs.setString(2,productName);
-            cs.setInt(3,size);
-            cs.setString(4,color);
-            cs.setInt(5,grade);
-            cs.setString(6,comment);
-            cs.registerOutParameter(7, Types.VARCHAR);
 
-
-            cs.executeQuery();
-            System.out.println(cs.getString((7)));
-
-        } catch (SQLException sql) {
-            System.out.println(sql.getMessage() + " " + sql.getErrorCode());
-        }
-    }
-
-    public void rateProductV2(int customerid,int shoeID, int gradeid, String comment) {
+    public void rateProduct(int customerid,int shoeID, int gradeid, String comment) {
         try (Connection con = getConnection()) {
             CallableStatement cs = con.prepareCall("CALL Rate(?,?,?,?)");
             cs.setInt(1,customerid);
@@ -121,7 +91,6 @@ public class Repository {
     }
 
     public double getAvgGrade(int shoeid) {
-        String selectStm = "SELECT avgScore(?)";
         try (Connection con = getConnection()) {
             CallableStatement cs = con.prepareCall("{? = CALL avgScore(?)}");
             cs.registerOutParameter(1, Types.INTEGER);

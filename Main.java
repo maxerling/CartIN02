@@ -57,6 +57,7 @@ public class Main {
             System.out.println("2.See cart");
             System.out.println("3.Review product");
             System.out.println("4.See average rating and comments of a product");
+            System.out.println("5. Quit");
             String answer = sc.nextLine();
             if (answer.equals("1")) {
                 addProductToCart(repo, sc, user);
@@ -67,6 +68,9 @@ public class Main {
                 reviewProduct(repo, sc, user);
             } else if (answer.equals("4")) {
                 getProductAverageRating(repo, sc);
+            } else if (answer.equals("5")) {
+                System.out.println("Avslutar...");
+                System.exit(0);
             } else {
                 System.out.println("Invalid input");
             }
@@ -214,8 +218,7 @@ public class Main {
 
 
         if (options > 0 && options <= 5) {
-            repo.rateProductV2(getCustomerId(repo, user),selectedShoe.getId(),options,comment);
-            //repo.rateProduct(getCustomerId(repo, user),selectedShoe.getName(),selectedShoe.getSize(),selectedShoe.getColor(),options,comment);
+            repo.rateProduct(getCustomerId(repo, user),selectedShoe.getId(),options,comment);
         } else {
             System.out.println("Invalid input");
         }
