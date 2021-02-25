@@ -82,7 +82,6 @@ public class Repository {
             cs.setInt(3,gradeid);
             cs.setString(4,comment);
 
-            System.out.println(customerid + " " + gradeid + " " + shoeID + " " + comment);
             cs.executeQuery();
 
         } catch (SQLException sql) {
